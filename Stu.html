@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script>
+            src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" ></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Vertical (basic) form</h2>
+            <form id="StuForm" method="post">
+                <div class="form-group">
+                    <span><label for="StuRoll">Stu RollNo:</label> <label id="StuIdMsg">
+                        </label></span>
+                    <input type="text" class="form-control" name="StuId" id="StuId"
+                           placeholder="Enter Student ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="StuName">Stu Name:</label>
+                    <input type="text" class="form-control" id="StuName"
+                           placeholder="Enter Student Name" name="StuName">
+                </div>
+                <div class="form-group">
+                    <label for="StuEmail">Email:</label>
+                    <input type="email" class="form-control" id="StuEmail"
+                           placeholder="Enter Student Email" name="StuEmail">
+                </div>
+                <input type="button" class="btn btn-primary" id="StuSave" value="Save"
+                       onclick="saveStudent();">
+            </form>
+        </div>
+        <script>
+            $("#StuRoll").focus();
+            function validateAndGetFormData() {
+                var StuIdVar = $("#StuRoll").val();
+                if (StuIdVar === "") {
+                    alert("Student RollNo required Value");
+                    $("#StuRoll").focus();
+                    return "";
+                }
+                var StuNameVar = $("#StuName").val();
+                if (StuNameVar === "") {
+                    alert("Student Name is Required Value");
+                    $("#StuName").focus();
+                    return "";
+                }
+                var StuEmailVar = $("#StuEmail").val();
+                if (StuEmailVar === "") {
+                    alert("Student Email is Required Value");
+                    $("#StuEmail").focus();
+                    return "";
+                }
+                var jsonStrObj = {
+                    StuId: StuIdVar,
+                    StuName: StuNameVar,
+                    StuEmail: StuEmailVar
+                };
+                return JSON.stringify(jsonStrObj);
+            }
+            // This method is used to create PUT Json request.
+            function createPUTRequest(connToken, jsonObj, dbName, relName) {
+                var putRequest = "{\n"
+                        + "\"token\" : \""
+                        + connToken
+                        + "\","
+                        + "\"dbName\": \""
+                        + dbName
+                        + "\",\n" + "\"cmd\" : \"PUT\",\n"
+                        + "\"rel\" : \""
+                        + relName + "\","
+                        + "\"jsonStr\": \n"
+                        + jsonObj
+                        + "\n"
+                        + "}";
+                putRequereturnst;
+            }
+            function executeCommand(reqString, dbBaseUrl, apiEndPointUrl) {
+                var url = dbBaseUrl + apiEndPointUrl;
+                var jsonObj;
+                $.post(url, reqString, function (result) {
+                    jsonObj = JSON.parse(result);
+                }).fail(function (result) {
+                    var dataJsonObj = result.responseText;
+                    jsonObj = JSON.parse(dataJsonObj);
+                });
+                return jsonObj;
+            }
+            function resetForm() {
+                $("#StuRoll").val("");
+                $("#StuName").val("");
+                $("#StuEmail").val("");
+                $("#StuRoll").focus();
+            }
+            function saveStudent() {
+                var jsonStr = validateAndGetFormData();
+                if (jsonStr === "") {
+                    return;
+                }
+                var putReqStr = createPUTRequest("90932640|-31949278117480041|90949109",
+                        jsonStr, "Student", "Student-Rel");
+                alert(putReqStr);
+                jQuery.ajaxSetup({async: false});
+                var resultObj = executeCommand(putReqStr,
+                        "http://api.login2explore.com:5577", "/api/iml");
+                alert(JSON.stringify(resultObj));
+                jQuery.ajaxSetup({async: true});
+                resetForm();
+            }
+        </script>
+    </body>
+</html>
