@@ -19,6 +19,6 @@
 
 ### Screenshots:
 
-![Dashboard](https://github.com/BeAgarwal/JsonPowerDB/blob/master/Assets/Screenshots/Dashboard.PNG)
+![Dashboard](https://github.com/akshada280/Student_Enrollment_Form/blob/main/assets/Capture.PNG)
 
 
