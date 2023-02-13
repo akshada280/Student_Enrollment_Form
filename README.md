@@ -6,4 +6,7 @@
 # Benifits of JsonPowerDB
 <ul>
   <li>Simplest way to retrieve data in a JSON format</li>
+  <li></li>
+  <li>Simplest way to retrieve data in a JSON format</li>
+  <li>Simplest way to retrieve data in a JSON format</li>
 </ul>
